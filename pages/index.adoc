@@ -1,0 +1,7 @@
+= Title
+
+The main landing page.
+
+* xref:other_file.adoc[Other page].
+
+* xref:folder/nested_file.adoc[Nested page].

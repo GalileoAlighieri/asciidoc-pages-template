@@ -1,0 +1,49 @@
+name: Deploy pages
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1.172.0
+        with:
+          ruby-version: '3.3'
+      - name: Install Asciidoctor
+        run: gem install asciidoctor
+      - name: Configure pages
+        id: pages
+        uses: actions/configure-pages@v5.0.0
+      - name: Generate pages
+        run: |
+          asciidoctor './pages/**/*.adoc' -R pages -D _site
+      - name: Upload pages
+        uses: actions/upload-pages-artifact@v3.0.1
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    needs: build
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

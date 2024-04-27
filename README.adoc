@@ -1,0 +1,32 @@
+= Asciidoc Pages Template
+
+A template for a very simple GitHub Pages documentation site written with Asciidoc.
+Here are the link:https://galileoalighieri.github.io/asciidoc-pages-template/[pages generated for this repository].
+
+
+== Setup
+
+. On GitHub, go to "Settings > Pages".
+Configure the source to be "Github Actions".
+
+. Write your pages as `.adoc` files within the `pages` folder.
+Make sure to have an `index.adoc` file, which will be the landing page.
+
+. Push to the default branch.
+The xref:.github/workflows/deploy_pages.yml[`deploy_pages` workflow] should automatically run and deploy all `.adoc` files within the `pages` folder on your repository's GitHub Pages.
+If the website doesn't seem to update after a change, try clearing your browser cache.
+
+
+== Testing
+
+You have two options to test how your site would look like before pushing to the default branch:
+
+* Open a PR.
+The site generation workflow will run and upload the html files as an artifact, which you can download and inspect.
+
+* Run Asciidoc locally (provided you have installed it):
++
+[source, console]
+----
+$ asciidoctor './pages/**/*.adoc' -R pages -D _site
+----

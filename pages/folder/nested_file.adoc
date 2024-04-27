@@ -1,0 +1,3 @@
+= Nested file
+
+Another page, in a sub-directory.
